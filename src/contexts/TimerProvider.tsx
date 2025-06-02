@@ -66,7 +66,7 @@ function TimerProvider({ children }: TimerProviderProps) {
     setDuration(Number(value));
   }
 
-  const formattedTime = formatTime(time);
+  const formattedTime = formatTime(time * 60);
 
   function formatTime(rawTime: number): string {
     let minutes: number | string = Math.floor(rawTime / 60);
