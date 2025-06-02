@@ -1,10 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
+// import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
-import FormControlLabel from "@mui/material/FormControlLabel";
+// import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import Link from "@mui/material/Link";
@@ -17,8 +17,8 @@ import AppTheme from "../shared-theme/AppTheme";
 import ColorModeSelect from "../shared-theme/ColorModeSelect";
 import {
   GoogleIcon,
-  FacebookIcon,
-  SitemarkIcon,
+  // FacebookIcon,
+  // SitemarkIcon,
 } from "../components/CustomIcons";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -134,7 +134,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
         />
         <SignUpContainer direction="column" justifyContent="space-between">
           <Card variant="outlined">
-            <SitemarkIcon />
+            {/* <SitemarkIcon /> */}
             <Typography
               component="h1"
               variant="h4"
@@ -192,10 +192,10 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                   color={passwordError ? "error" : "primary"}
                 />
               </FormControl>
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive updates via email."
-              />
+              /> */}
               <Button
                 type="submit"
                 fullWidth
@@ -217,14 +217,14 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               >
                 Sign up with Google
               </Button>
-              <Button
+              {/* <Button
                 fullWidth
                 variant="outlined"
                 onClick={() => alert("Sign up with Facebook")}
                 startIcon={<FacebookIcon />}
               >
                 Sign up with Facebook
-              </Button>
+              </Button> */}
               <Typography sx={{ textAlign: "center" }}>
                 Already have an account?{" "}
                 <Link
