@@ -15,7 +15,7 @@ function AuthNavBtn({ children }: AuthNavBtnProps) {
 
   return (
     <button
-      className={`h-8 w-24 rounded-full bg-yellow-500 md:h-12 md:w-32 md:text-lg lg:h-16 lg:w-40 lg:text-xl`}
+      className={`h-8 w-24 rounded-full bg-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-offset-2 md:h-12 md:w-32 md:text-lg lg:h-16 lg:w-40 lg:text-xl`}
       onClick={() => navigate(link)}
     >
       {children}

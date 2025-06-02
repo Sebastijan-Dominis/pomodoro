@@ -23,7 +23,7 @@ function Timer() {
       <div className="flex w-full justify-evenly">
         <TimerBtn onClick={() => onReset()}>Reset</TimerBtn>
         <select
-          className="h-8 w-24 cursor-pointer rounded-full bg-yellow-500 text-center md:h-12 md:w-32 md:text-lg lg:h-16 lg:w-40 lg:text-xl"
+          className="h-8 w-24 cursor-pointer rounded-full bg-yellow-500 text-center focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-offset-2 md:h-12 md:w-32 md:text-lg lg:h-16 lg:w-40 lg:text-xl"
           value={duration}
           onChange={(e) => onUpdateDuration(e.target.value)}
         >
