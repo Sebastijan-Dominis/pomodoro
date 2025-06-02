@@ -1,13 +1,16 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { TimerProvider } from "./contexts/TimerProvider";
 import med_sea from "./assets/img/med_sea.jpg";
-import Homepage from "./pages/Homepage";
-import Pomo from "./pages/Pomo";
-import Stats from "./pages/Stats";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import PageNotFound from "./pages/PageNotFound";
+import SpinnerFullPage from "./components/SpinnerFullPage.tsx";
+
+const Homepage = lazy(() => import("./pages/Homepage"));
+const Pomo = lazy(() => import("./pages/Pomo"));
+const Stats = lazy(() => import("./pages/Stats"));
+const Signup = lazy(() => import("./pages/Signup"));
+const Login = lazy(() => import("./pages/Login"));
+const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 function App() {
   return (
@@ -16,14 +19,16 @@ function App() {
       <div className="-z-1 fixed inset-0 bg-sky-950/75"></div>
       <TimerProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Homepage />}></Route>
-            <Route path="/pomo" element={<Pomo />}></Route>
-            <Route path="/stats" element={<Stats />}></Route>
-            <Route path="/signup" element={<Signup />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/*" element={<PageNotFound />}></Route>
-          </Routes>
+          <Suspense fallback={<SpinnerFullPage />}>
+            <Routes>
+              <Route index element={<Homepage />}></Route>
+              <Route path="pomo" element={<Pomo />}></Route>
+              <Route path="stats" element={<Stats />}></Route>
+              <Route path="signup" element={<Signup />}></Route>
+              <Route path="login" element={<Login />}></Route>
+              <Route path="*" element={<PageNotFound />}></Route>
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </TimerProvider>
     </>
