@@ -60,10 +60,10 @@ function TimerProvider({ children }: TimerProviderProps) {
   }, [time, reset]);
 
   function updateDuration(value: string) {
-    setDuration(Number(value));
-    if (!isRunning) {
+    if (!isRunning && time === duration) {
       setTime(Number(value));
     }
+    setDuration(Number(value));
   }
 
   const formattedTime = formatTime(time);
