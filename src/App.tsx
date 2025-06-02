@@ -9,7 +9,7 @@ const Homepage = lazy(() => import("./pages/Homepage"));
 const Pomo = lazy(() => import("./pages/Pomo"));
 const Stats = lazy(() => import("./pages/Stats"));
 const Signup = lazy(() => import("./pages/Signup"));
-const Login = lazy(() => import("./pages/Login"));
+const Signin = lazy(() => import("./pages/Signin.tsx"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
               <Route path="pomo" element={<Pomo />}></Route>
               <Route path="stats" element={<Stats />}></Route>
               <Route path="signup" element={<Signup />}></Route>
-              <Route path="login" element={<Login />}></Route>
+              <Route path="signin" element={<Signin />}></Route>
               <Route path="*" element={<PageNotFound />}></Route>
             </Routes>
           </Suspense>

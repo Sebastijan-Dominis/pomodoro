@@ -4,7 +4,7 @@ function AuthNavbar() {
   return (
     <nav className="mx-8 flex justify-around">
       <AuthNavBtn>Sign up</AuthNavBtn>
-      <AuthNavBtn>Log in</AuthNavBtn>
+      <AuthNavBtn>Sign in</AuthNavBtn>
     </nav>
   );
 }
