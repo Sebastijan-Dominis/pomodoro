@@ -1,4 +1,4 @@
-import FooterTomatoes from "./FooterTomatoes";
+// import FooterTomatoes from "./FooterTomatoes";
 import BackBtn from "./BackBtn";
 
 interface FooterProps {
@@ -10,9 +10,9 @@ function Footer({ isHome }: FooterProps) {
     <footer className="fixed -left-2 bottom-4 text-nowrap md:text-lg lg:text-xl">
       {isHome ? (
         <>
+          {/* <FooterTomatoes />
           <FooterTomatoes />
-          <FooterTomatoes />
-          <FooterTomatoes />
+          <FooterTomatoes /> */}
         </>
       ) : (
         <BackBtn />

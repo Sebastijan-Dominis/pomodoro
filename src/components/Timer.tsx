@@ -1,0 +1,46 @@
+import { useTimer } from "../contexts/TimerProvider";
+import TimerBtn from "./TimerBtn";
+
+function Timer() {
+  const timer = useTimer();
+
+  const {
+    interval,
+    duration,
+    onUpdateDuration,
+    formattedTime,
+    onPause,
+    onStart,
+    onReset,
+  } = timer;
+
+  return (
+    <main className="items-between flex h-[60dvh] flex-col items-center justify-evenly">
+      <p className="text-3xl font-bold text-yellow-500">{formattedTime}</p>
+      <TimerBtn onClick={() => (interval.current ? onPause() : onStart())}>
+        {interval.current ? "Pause" : "Start"}
+      </TimerBtn>
+      <div className="flex w-full justify-evenly">
+        <TimerBtn onClick={() => onReset()}>Reset</TimerBtn>
+        <select
+          className="h-8 w-24 cursor-pointer rounded-full bg-yellow-500 text-center md:h-12 md:w-32 md:text-lg lg:h-16 lg:w-40 lg:text-xl"
+          value={duration}
+          onChange={(e) => onUpdateDuration(e.target.value)}
+        >
+          <option value={15}>15</option>
+          <option value={20}>20</option>
+          <option value={25}>25</option>
+          <option value={30}>30</option>
+          <option value={35}>35</option>
+          <option value={40}>40</option>
+          <option value={45}>45</option>
+          <option value={50}>50</option>
+          <option value={55}>55</option>
+          <option value={60}>60</option>
+        </select>
+      </div>
+    </main>
+  );
+}
+
+export default Timer;
