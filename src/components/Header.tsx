@@ -10,14 +10,21 @@ function Header({ description, isForm }: HeaderProps) {
     <header
       className={`${isForm ? "max-sm:hidden" : ""} z-2 relative font-playfair text-yellow-500`}
     >
-      <HeaderTomato horizontalPos="left-2" />
-      <HeaderTomato horizontalPos="right-2" />
+      <HeaderTomato
+        horizontalPos="left-2"
+        {...(isForm ? { isForm: true } : {})}
+      />
+      <HeaderTomato
+        horizontalPos="right-2"
+        {...(isForm ? { isForm: true } : {})}
+      />
       <h1
         className={`${isForm ? "fixed left-1/2 top-4 -translate-x-1/2" : "mt-4"} max-w-[80dvw] justify-self-center text-center text-2xl tracking-wider md:text-3xl lg:text-4xl`}
       >
         Mediterranean pomodoro
       </h1>
       <p
+        // second condition left, since margin should always be 0 if isForm
         className={`${isForm ? "hidden" : "mt-4 md:mt-8"} max-w-[80dvw] justify-self-center text-center text-lg md:text-xl lg:text-2xl`}
       >
         {description}
