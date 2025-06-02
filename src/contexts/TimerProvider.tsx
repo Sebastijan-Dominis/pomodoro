@@ -3,15 +3,17 @@ import {
   useState,
   useRef,
   type ReactNode,
-  useContext,
+  useEffect,
+  useCallback,
 } from "react";
 
 export type TimerContextType = {
-  interval: React.RefObject<number | null>;
+  // interval: React.RefObject<number | null>;
+  isRunning: boolean;
   duration: number;
   time: number;
   formattedTime: string;
-  onSetDuration: (value: number | ((prevState: number) => number)) => void;
+  onUpdateDuration: (value: string) => void;
   onStart: () => void;
   onPause: () => void;
   onReset: () => void;
@@ -26,29 +28,40 @@ type TimerProviderProps = {
 function TimerProvider({ children }: TimerProviderProps) {
   const [duration, setDuration] = useState(30);
   const [time, setTime] = useState(duration);
+  const [isRunning, setIsRunning] = useState(false);
 
   const interval = useRef<number | null>(null);
 
-  if (interval.current && time < 0) reset();
-
   function start() {
-    interval.current = setInterval(() => setTime((time) => time - 1), 1000);
+    if (interval.current === null) {
+      interval.current = setInterval(() => setTime((time) => time - 1), 1000);
+      setIsRunning(true);
+    }
   }
 
   function pause() {
     if (interval.current) clearInterval(interval.current);
     interval.current = null;
+    setIsRunning(false);
   }
 
-  function reset() {
-    if (interval.current) clearInterval(interval.current);
-    interval.current = null;
-    setTime(duration);
-  }
+  const reset = useCallback(
+    function reset() {
+      if (interval.current) clearInterval(interval.current);
+      interval.current = null;
+      setTime(duration);
+      setIsRunning(false);
+    },
+    [duration]
+  );
+
+  useEffect(() => {
+    if (interval.current && time < 0) reset();
+  }, [time, reset]);
 
   function updateDuration(value: string) {
     setDuration(Number(value));
-    if (!interval.current) {
+    if (!isRunning) {
       setTime(Number(value));
     }
   }
@@ -66,7 +79,8 @@ function TimerProvider({ children }: TimerProviderProps) {
   return (
     <TimerContext.Provider
       value={{
-        interval: interval,
+        // interval: interval,
+        isRunning: isRunning,
         duration: duration,
         time: time,
         formattedTime: formattedTime,
@@ -81,12 +95,4 @@ function TimerProvider({ children }: TimerProviderProps) {
   );
 }
 
-function useTimer() {
-  const context = useContext(TimerContext);
-  if (!context) {
-    throw new Error("TimerContext was used outside of the TimerProvider");
-  }
-  return context;
-}
-
-export { useTimer, TimerProvider };
+export { TimerContext, TimerProvider };

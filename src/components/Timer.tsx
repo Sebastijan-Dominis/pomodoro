@@ -1,11 +1,11 @@
-import { useTimer } from "../contexts/TimerProvider";
+import useTimer from "../contexts/useTimer";
 import TimerBtn from "./TimerBtn";
 
 function Timer() {
   const timer = useTimer();
 
   const {
-    interval,
+    isRunning,
     duration,
     onUpdateDuration,
     formattedTime,
@@ -17,8 +17,8 @@ function Timer() {
   return (
     <main className="items-between flex h-[60dvh] flex-col items-center justify-evenly">
       <p className="text-3xl font-bold text-yellow-500">{formattedTime}</p>
-      <TimerBtn onClick={() => (interval.current ? onPause() : onStart())}>
-        {interval.current ? "Pause" : "Start"}
+      <TimerBtn onClick={() => (isRunning ? onPause() : onStart())}>
+        {isRunning ? "Pause" : "Start"}
       </TimerBtn>
       <div className="flex w-full justify-evenly">
         <TimerBtn onClick={() => onReset()}>Reset</TimerBtn>
