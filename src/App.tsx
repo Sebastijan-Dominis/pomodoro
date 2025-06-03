@@ -15,8 +15,8 @@ const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 function App() {
   return (
     <>
-      <img src={med_sea} alt="" className="-z-2 fixed inset-0 h-full w-full" />
-      <div className="-z-1 fixed inset-0 bg-sky-950/75"></div>
+      <img src={med_sea} alt="" className="fixed inset-0 -z-20 h-full w-full" />
+      <div className="fixed inset-0 -z-10 bg-sky-950/75"></div>
       <TimerProvider>
         <BrowserRouter>
           <Suspense fallback={<SpinnerFullPage />}>
