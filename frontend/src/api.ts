@@ -65,3 +65,16 @@ export const getCurrentUser = async (token: string) => {
   });
   return response.data;
 };
+
+export const create_pomo = async (token: string, duration: number) => {
+  const response = await api.post(
+    "/pomodoro_sessions/create-pomo",
+    { duration },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};

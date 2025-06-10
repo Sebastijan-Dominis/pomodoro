@@ -7,6 +7,10 @@ import {
   useCallback,
 } from "react";
 
+import { create_pomo } from "../api";
+import { AuthContext } from "./AuthProvider";
+import { useContext } from "react";
+
 export type TimerContextType = {
   // interval: React.RefObject<number | null>;
   isRunning: boolean;
@@ -29,6 +33,9 @@ function TimerProvider({ children }: TimerProviderProps) {
   const [duration, setDuration] = useState(30);
   const [time, setTime] = useState(duration);
   const [isRunning, setIsRunning] = useState(false);
+
+  const auth = useContext(AuthContext);
+  const token = auth?.token;
 
   const interval = useRef<number | null>(null);
 
@@ -56,7 +63,12 @@ function TimerProvider({ children }: TimerProviderProps) {
   );
 
   useEffect(() => {
-    if (interval.current && time < 0) reset();
+    if (interval.current && time < 0) {
+      reset();
+      if (token) {
+        create_pomo(token, duration);
+      }
+    }
   }, [time, reset]);
 
   function updateDuration(value: string) {
