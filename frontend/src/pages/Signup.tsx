@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 // import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
+// import Divider from "@mui/material/Divider";
 // import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
@@ -15,13 +15,16 @@ import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import AppTheme from "../shared-theme/AppTheme";
 import ColorModeSelect from "../shared-theme/ColorModeSelect";
-import {
-  GoogleIcon,
-  // FacebookIcon,
-  // SitemarkIcon,
-} from "../components/CustomIcons";
+// import {
+//   GoogleIcon,
+//   // FacebookIcon,
+//   // SitemarkIcon,
+// } from "../components/CustomIcons";
+import { useContext } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+
+import { AuthContext } from "../contexts/AuthProvider";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -73,6 +76,9 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState("");
 
+  const auth = useContext(AuthContext);
+  const { register } = auth;
+
   const validateInputs = () => {
     const email = document.getElementById("email") as HTMLInputElement;
     const password = document.getElementById("password") as HTMLInputElement;
@@ -111,17 +117,18 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (nameError || emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
+    event.preventDefault();
+    const isValid = validateInputs();
+    if (!isValid) return;
+
     const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get("name"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const credentials = {
+      username: data.get("name") as string,
+      email: data.get("email") as string,
+      password: data.get("password") as string,
+    };
+
+    register(credentials);
   };
 
   return (
@@ -148,7 +155,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               sx={{ display: "flex", flexDirection: "column", gap: 2 }}
             >
               <FormControl>
-                <FormLabel htmlFor="name">Full name</FormLabel>
+                <FormLabel htmlFor="name">Username</FormLabel>
                 <TextField
                   autoComplete="name"
                   name="name"
@@ -196,15 +203,10 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive updates via email."
               /> */}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                onClick={validateInputs}
-              >
+              <Button type="submit" fullWidth variant="contained">
                 Sign up
               </Button>
-            </Box>
+              {/* </Box>
             <Divider>
               <Typography sx={{ color: "text.secondary" }}>or</Typography>
             </Divider>
@@ -216,7 +218,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 startIcon={<GoogleIcon />}
               >
                 Sign up with Google
-              </Button>
+              </Button> */}
               {/* <Button
                 fullWidth
                 variant="outlined"
