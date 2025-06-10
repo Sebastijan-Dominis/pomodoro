@@ -40,8 +40,8 @@ class UserRequest(BaseModel):
         }
     }
 
-def authenticate_user(username: str, password: str, db: db_dependency):
-    user = db.query(Users).filter(Users.username == username).first()
+def authenticate_user(email: str, password: str, db: db_dependency):
+    user = db.query(Users).filter(Users.email == email).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found.")
     if not argon2_context.verify(password, user.hashed_password):
@@ -78,21 +78,27 @@ def authorization(token: Annotated[str, Depends(oauth2_bearer)]):
 
 @router.post("/create-user")
 async def create_user(db: db_dependency, create_user_request: UserRequest):
-    new_user = Users(
-        username = create_user_request.username,
-        hashed_password = argon2_context.hash(create_user_request.password),
-        email = create_user_request.email
-    )
-    db.add(new_user)
-    db.commit()
+    try:
+        new_user = Users(
+            username=create_user_request.username,
+            hashed_password=argon2_context.hash(create_user_request.password),
+            email=create_user_request.email
+        )
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        return {"id": new_user.id, "username": new_user.username, "email": new_user.email}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"User creation failed: {str(e)}")
+
 
 @router.post("/authorize", response_model=Token)
 async def authorize_user(db: db_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
-    username = form_data.username
+    email = form_data.username
     password = form_data.password
-    user = authenticate_user(username, password, db)
+    user = authenticate_user(email, password, db)
     
-    token = create_user_token(username, user.id)
+    token = create_user_token(user.username, user.id)
     return {"access_token": token, "token_type": "bearer"}
 
 # only for dev mode:

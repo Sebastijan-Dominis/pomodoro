@@ -5,7 +5,7 @@ const API_URL = "http://localhost:8000";
 
 // Types matching your FastAPI models
 export type UserCredentials = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -28,12 +28,10 @@ const api = axios.create({
   },
 });
 
-// Add response interceptor to handle errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
-      // Extract error message from FastAPI response
       const errorMessage = error.response.data?.detail || "An error occurred";
       return Promise.reject(new Error(errorMessage));
     }
@@ -47,9 +45,8 @@ export const registerUser = async (userData: UserRegistration) => {
 };
 
 export const loginUser = async (credentials: UserCredentials) => {
-  // Note: Using URLSearchParams to match OAuth2PasswordRequestForm
   const params = new URLSearchParams();
-  params.append("username", credentials.username);
+  params.append("username", credentials.email);
   params.append("password", credentials.password);
 
   const response = await api.post("/auth/authorize", params, {
@@ -61,7 +58,7 @@ export const loginUser = async (credentials: UserCredentials) => {
 };
 
 export const getCurrentUser = async (token: string) => {
-  const response = await api.get("/users/me", {
+  const response = await api.get("/users/current", {
     headers: {
       Authorization: `Bearer ${token}`,
     },

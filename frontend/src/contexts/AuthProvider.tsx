@@ -11,7 +11,7 @@ type User = {
 type AuthContextType = {
   token: string | null;
   user: User | null;
-  login: (username: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   register: (
     username: string,
     email: string,
@@ -34,7 +34,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const clearError = useCallback(() => setError(null), []);
 
-  // Load user when token changes
   useEffect(() => {
     const loadUser = async () => {
       if (token) {
@@ -43,17 +42,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setUser(userData);
         } catch (err) {
           console.error("Failed to load user", err);
-          logout();
         }
       }
     };
     loadUser();
   }, [token]);
 
-  const login = async (username: string, password: string) => {
+  const login = async (email: string, password: string) => {
     try {
       clearError();
-      const { access_token } = await loginUser({ username, password });
+      const { access_token } = await loginUser({ email, password });
       setToken(access_token);
       localStorage.setItem("token", access_token);
       navigate("/");
@@ -71,8 +69,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       clearError();
       await registerUser({ username, email, password });
-      // Auto-login after registration
-      await login(username, password);
+      await login(email, password);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed");
       throw err;

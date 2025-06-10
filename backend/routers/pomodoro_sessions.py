@@ -78,3 +78,5 @@ async def create_pomo(db: db_dependency, user: user_dependency, create_pomo_requ
     new_pomo = PomodoroSession(**create_pomo_request.model_dump(), owner_id = user.get("id"), created_at = datetime.now(timezone.utc))
     db.add(new_pomo)
     db.commit()
+    db.refresh(new_pomo)
+    return {"message": "Success"}
