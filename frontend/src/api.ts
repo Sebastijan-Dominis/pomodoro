@@ -1,9 +1,7 @@
-// src/api.ts
 import axios from "axios";
 
 const API_URL = "http://localhost:8000";
 
-// Types matching your FastAPI models
 export type UserCredentials = {
   email: string;
   password: string;
@@ -20,7 +18,10 @@ export type AuthResponse = {
   token_type: string;
 };
 
-// Axios instance with base config
+export type TotalDurationResponse = {
+  total_duration: number;
+};
+
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -77,4 +78,48 @@ export const create_pomo = async (token: string, duration: number) => {
     }
   );
   return response.data;
+};
+
+export const getPomosLastDay = async (token: string): Promise<number> => {
+  const response = await api.get<TotalDurationResponse>(
+    "/pomodoro_sessions/pomos-last-day",
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  return response.data.total_duration;
+};
+
+export const getPomosLastWeek = async (token: string): Promise<number> => {
+  const response = await api.get<TotalDurationResponse>(
+    "/pomodoro_sessions/pomos-last-week",
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  return response.data.total_duration;
+};
+
+export const getPomosLastMonth = async (token: string): Promise<number> => {
+  const response = await api.get<TotalDurationResponse>(
+    "/pomodoro_sessions/pomos-last-month",
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  return response.data.total_duration;
+};
+
+export type PomoSummary = {
+  last_day_total: number;
+  last_week_total: number;
+  last_month_total: number;
+};
+
+export const getPomoSummary = async (token: string): Promise<PomoSummary> => {
+  const [last_day_total, last_week_total, last_month_total] = await Promise.all(
+    [getPomosLastDay(token), getPomosLastWeek(token), getPomosLastMonth(token)]
+  );
+
+  return { last_day_total, last_week_total, last_month_total };
 };

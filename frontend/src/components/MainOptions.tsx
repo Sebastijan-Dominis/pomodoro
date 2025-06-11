@@ -1,7 +1,14 @@
 import MainOption from "./MainOption";
+import { AuthContext } from "../contexts/AuthProvider";
+import { useContext } from "react";
 
 function MainOptions() {
-  const options = ["Pomo", "Stats"];
+  const auth = useContext(AuthContext);
+  const token = auth?.token;
+
+  const options = ["Pomo"];
+
+  if (token) options.push("Stats");
 
   return (
     <ul className="flex h-[60dvh] flex-col items-center justify-around">

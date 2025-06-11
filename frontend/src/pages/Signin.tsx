@@ -192,7 +192,7 @@ export default function Signin(props: { disableCustomTheme?: boolean }) {
             </Box>
             <Typography sx={{ textAlign: "center" }}>
               Don&apos;t have an account?{" "}
-              <Link href="signin" variant="body2" sx={{ alignSelf: "center" }}>
+              <Link href="signup" variant="body2" sx={{ alignSelf: "center" }}>
                 Sign up
               </Link>
             </Typography>

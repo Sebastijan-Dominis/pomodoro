@@ -5,6 +5,7 @@ import { TimerProvider } from "./contexts/TimerProvider";
 import { AuthProvider } from "./contexts/AuthProvider.tsx";
 import med_sea from "./assets/img/med_sea.jpg";
 import SpinnerFullPage from "./components/SpinnerFullPage.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
 const Pomo = lazy(() => import("./pages/Pomo"));
@@ -25,7 +26,14 @@ function App() {
               <Routes>
                 <Route index element={<Homepage />}></Route>
                 <Route path="pomo" element={<Pomo />}></Route>
-                <Route path="stats" element={<Stats />}></Route>
+                <Route
+                  path="stats"
+                  element={
+                    <ProtectedRoute>
+                      <Stats />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="signup" element={<Signup />}></Route>
                 <Route path="signin" element={<Signin />}></Route>
                 <Route path="*" element={<PageNotFound />}></Route>

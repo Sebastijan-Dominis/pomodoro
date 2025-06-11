@@ -30,7 +30,7 @@ type TimerProviderProps = {
 };
 
 function TimerProvider({ children }: TimerProviderProps) {
-  const [duration, setDuration] = useState(30);
+  const [duration, setDuration] = useState(1800);
   const [time, setTime] = useState(duration);
   const [isRunning, setIsRunning] = useState(false);
 
@@ -73,12 +73,12 @@ function TimerProvider({ children }: TimerProviderProps) {
 
   function updateDuration(value: string) {
     if (!isRunning && time === duration) {
-      setTime(Number(value));
+      setTime(Number(value) * 60);
     }
-    setDuration(Number(value));
+    setDuration(Number(value) * 60);
   }
 
-  const formattedTime = formatTime(time * 60);
+  const formattedTime = formatTime(time);
 
   function formatTime(rawTime: number): string {
     let minutes: number | string = Math.floor(rawTime / 60);
