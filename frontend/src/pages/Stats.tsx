@@ -38,16 +38,16 @@ function Stats() {
         {error && <p className="text-center text-red-500">{error}</p>}
         {summary && (
           <div className="space-y-4">
-            <div className="rounded-lg bg-white p-4 shadow">
-              <h3 className="font-semibold">Last Day</h3>
+            <div className="rounded-lg bg-sky-500 p-4 text-center font-bold text-sky-950 shadow">
+              <h3>Last Day</h3>
               <p>{summary.last_day_total} minutes</p>
             </div>
-            <div className="rounded-lg bg-white p-4 shadow">
-              <h3 className="font-semibold">Last Week</h3>
+            <div className="rounded-lg bg-sky-500 p-4 text-center font-bold text-sky-950 shadow">
+              <h3>Last Week</h3>
               <p>{summary.last_week_total} minutes</p>
             </div>
-            <div className="rounded-lg bg-white p-4 shadow">
-              <h3 className="font-semibold">Last Month</h3>
+            <div className="rounded-lg bg-sky-500 p-4 text-center font-bold text-sky-950 shadow">
+              <h3>Last Month</h3>
               <p>{summary.last_month_total} minutes</p>
             </div>
           </div>

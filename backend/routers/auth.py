@@ -9,11 +9,15 @@ from jose import jwt, JWTError
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from datetime import datetime, timezone, timedelta
+from dotenv import load_dotenv
+import os
 
 router = APIRouter(
     prefix="/auth",
     tags=["auth"]
 )
+
+load_dotenv()
 
 def get_db():
     db = SessionLocal()
@@ -52,8 +56,8 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-SECRET_KEY = "7b2d705b16ea36cf16ab127b5da2d00da2d968b99fb965252eaec6cc10da60f1"
-ALGORITHM = "HS256"
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
 
 def create_user_token(username: str, user_id: int):
     encoding = {"sub": username, "id": user_id, "exp": datetime.now(timezone.utc) + timedelta(minutes=60)}
@@ -79,6 +83,13 @@ def authorization(token: Annotated[str, Depends(oauth2_bearer)]):
 @router.post("/create-user")
 async def create_user(db: db_dependency, create_user_request: UserRequest):
     try:
+        existing = db.query(Users).filter(Users.email == create_user_request.email).first()
+        if existing:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=f"User with email {create_user_request.email} already exists."
+            )
+
         new_user = Users(
             username=create_user_request.username,
             hashed_password=argon2_context.hash(create_user_request.password),

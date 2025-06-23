@@ -1,4 +1,3 @@
-import Footer from "../components/Footer";
 import Header from "../components/Header";
 import HomeMain from "../components/HomeMain";
 
@@ -19,7 +18,6 @@ function Homepage() {
         }
       />
       <HomeMain />
-      <Footer isHome={true} />
     </div>
   );
 }

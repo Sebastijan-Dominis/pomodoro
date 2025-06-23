@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000";
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 export type UserCredentials = {
   email: string;
@@ -23,7 +23,7 @@ export type TotalDurationResponse = {
 };
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -34,6 +34,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       const errorMessage = error.response.data?.detail || "An error occurred";
+      alert(`Error: ${errorMessage}`);
       return Promise.reject(new Error(errorMessage));
     }
     return Promise.reject(error);
@@ -41,6 +42,7 @@ api.interceptors.response.use(
 );
 
 export const registerUser = async (userData: UserRegistration) => {
+  console.log(VITE_API_URL);
   const response = await api.post("/auth/create-user", userData);
   return response.data;
 };

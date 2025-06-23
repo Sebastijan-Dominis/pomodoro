@@ -15,7 +15,7 @@ function Timer() {
   } = timer;
 
   return (
-    <main className="items-between flex h-[60dvh] flex-col items-center justify-evenly">
+    <main className="items-between flex h-[60dvh] flex-col items-center justify-evenly text-sky-950">
       <p className="text-3xl font-bold text-yellow-500">{formattedTime}</p>
       <TimerBtn onClick={() => (isRunning ? onPause() : onStart())}>
         {isRunning ? "Pause" : "Start"}
