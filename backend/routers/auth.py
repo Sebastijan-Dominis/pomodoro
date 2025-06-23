@@ -80,7 +80,7 @@ def authorization(token: Annotated[str, Depends(oauth2_bearer)]):
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization Failed.")
 
-@router.post("/create-user")
+@router.post("/create-user", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: UserRequest):
     try:
         existing = db.query(Users).filter(Users.email == create_user_request.email).first()
@@ -125,4 +125,5 @@ async def delete_user(db: db_dependency, user_id: int = Path(ge=1)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")
     db.delete(user)
     db.commit()
+    return {"message": "User with id {user_id} successfully deleted."}
 #------------------------------------------------------------
