@@ -11,17 +11,17 @@
 - [Screenshots](#screenshots)
 - [License](#license)
 
-## 🚀 Overview
+## Overview
 
 This web application allows users to run a pomodoro timer with custom time ranging from 15 minutes to 60 minutes per one pomodoro session. Users can then track how many hours and minutes they've spent focused over the last day, week, or month. The general vibe of the website is Mediterranean, hence "Mediterranean Pomodoro".
 
-## 🧱 Tech Stack
+## Tech Stack
 
 - **Frontend:** React (TypeScript), Vite
 - **Backend:** Fastapi
 - **Database:** PostgreSQL
 
-## 🛠 Local Development Setup
+## Local Development Setup
 
 ### Prerequisites
 
