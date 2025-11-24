@@ -127,141 +127,85 @@ VITE_API_URL=url-to-backend
 
 ## API Documentation
 
-### auth
+This section is a concise reference of available endpoints. For each endpoint we list the HTTP method, path, whether authentication is required, a short request/response example, and common errors.
 
-#### Create User
+### Auth
 
-- `/auth/create-user`
-- no parameters
-- example of a request body:
-  {
-  "email": "user@gmail.com",
-  "password": "password123",
-  "username": "user's name"
-  }
+- **Create user**
+  - Method: `POST`
+  - Path: `/auth/create-user`
+  - Auth: no
+  - Body (JSON): `{"email": "user@gmail.com", "password": "password123", "username": "Alice"}`
+  - Success: `201` — `{ "id": 1, "username": "Alice", "email": "user@gmail.com" }`
+  - Common errors: `422` (validation), `409` (email exists), `500` (server)
 
-This endpoint is used to register (sign up) users, and it returns {"id": new user's id, "username": new user's username, "email": new user's email}.
+- **Authorize (login)**
+  - Method: `POST` (form data)
+  - Path: `/auth/authorize`
+  - Auth: no
+  - Body (form): `username` / `password`
+  - Success: `200` — `{ "access_token": "<jwt>", "token_type": "bearer" }`
+  - Common errors: `422` (validation), `401` (invalid credentials)
 
-Successful response: 201
+- **Read all users**
+  - Method: `GET`
+  - Path: `/auth/all-users`
+  - Auth: no (admin/debug use only)
+  - Success: `200` — list of users
 
-Most common errors:
+- **Delete user**
+  - Method: `DELETE`
+  - Path: `/auth/delete-user/{user_id}`
+  - Auth: no (admin/debug use only)
+  - Success: `200` — `{ "message": "User with id {user_id} successfully deleted." }`
+  - Common errors: `422`, `404`
 
-- 422: Validation Error
-- 409: User with email {email} already exists.
-- 500: User creation failed: {error}
+### Pomodoro Sessions
 
-#### Authorize User
+- **Create pomo**
+  - Method: `POST`
+  - Path: `/pomodoro_sessions/create-pomo`
+  - Auth: yes (Bearer token)
+  - Body (JSON): `{"duration": 15}`
+  - Success: `201` — saved session
+  - Common errors: `422` (validation), `401` (authorization)
 
-- `/auth/authorize`
-- no parameters
-- request body expects form data
+- **Pomos last day**
+  - Method: `GET`
+  - Path: `/pomodoro_sessions/pomos-last-day`
+  - Auth: yes
+  - Success: `200` — total focused time (last 24h)
 
-This endpoint is used for logging in the user and assigning them a JWT, which expires in 60 minutes of no action. It returns {"access_token": token, "token_type": "bearer"}.
+- **Pomos last week**
+  - Method: `GET`
+  - Path: `/pomodoro_sessions/pomos-last-week`
+  - Auth: yes
+  - Success: `200` — total focused time (last 7 days)
 
-Successful response: 200
+- **Pomos last month**
+  - Method: `GET`
+  - Path: `/pomodoro_sessions/pomos-last-month`
+  - Auth: yes
+  - Success: `200` — total focused time (last 30 days)
 
-Most common errors:
+### Users
 
-- 422: Validation error
+- **Get current user**
+  - Method: `GET`
+  - Path: `/users/current`
+  - Auth: yes
+  - Success: `200` — current user info (id, username, email)
+  - Common errors: `401` (authorization)
 
-#### Read Users
-
-- `/auth/all-users`
-
-- no parameters
-
-This endpoint is used for reading all of the users, and is not meant to be called from frontend. It returns a list of all of the registered users.
-
-Successful response: 200
-
-#### Delete User
-
-- `/auth/delete-user/{user_id}`
-
-- parameters:
-  **user_id: integer**
-
-This endpoint is used for deleting a user by their id, and is not meant to be called from frontend. It returns {"message": "User with id {user_id} successfully deleted."}.
-
-Successful response: 200
-
-Most common errors:
-
-- 422: Validation error
-- 404: User not found.
-
-### pomodoro_sessions
-
-#### Pomos Last Day
-
-- `/pomodoro_sessions/pomos-last-day`
-
-- no parameters
-
-This endpoint is used for getting the total time that the logged-in user has spent focused (sum of all pomos) over the last 24 hours.
-
-Successful response: 200
-
-#### Pomos Last Week
-
-- `/pomodoro_sessions/pomos-last-week`
-
-- no parameters
-
-This endpoint is used for getting the total time that the logged-in user has spent focused (sum of all pomos) over the last 7 days.
-
-Successful response: 200
-
-#### Pomos Last Month
-
-- `/pomodoro_sessions/pomos-last-month`
-
-- no parameters
-
-This endpoint is used for getting the total time that the logged-in user has spent focused (sum of all pomos) over the last 30 days.
-
-Successful response: 200
-
-#### Create Pomo
-
-- `/pomodoro_sessions/create-pomo`
-
-- no parameters
-
-- example of the request body:
-  {
-  "duration": 15
-  }
-
-This endpoint is used to save the duration of the user's finished pomodoro session.
-
-Successful response: 201
-
-Most common errors:
-
-- 422: Validation Error
-- 401: Authorization Failed.
-
-### users
-
-#### Get Current User
-
-- `/users/current`
-
-- no parameters
-
-This endpoint is used to fetch the basic information regarding the logged-in user. In the frontend, it is triggered on login, and used to display username to the logged-in user on the homepage.
-
-Successful response: 200
-
-Most common error:
-
-- 401: Authorization Failed.
+Notes:
+- Use the `Authorization: Bearer <token>` header for protected endpoints.
+- For development you can use `DB_URL=sqlite:///./pomodoroapp.db` to avoid external DB setup.
 
 ## Database Schema
 
 - if one chooses to manually create the PostgreSQL database, it should be done like so:
 
+```sql
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -279,6 +223,7 @@ duration INTEGER,
 created_at TIMESTAMP,
 owner_id INTEGER REFERENCES users(id)
 );
+```
 
 ## Screenshots
 
