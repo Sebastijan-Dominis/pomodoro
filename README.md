@@ -10,6 +10,8 @@
 - [Database Schema](#database-schema)
 - [Screenshots](#screenshots)
 - [License](#license)
+- [Contributing](#contributing)
+- [Author & Contact](#author--contact)
 
 ## Overview
 
@@ -245,8 +247,9 @@ owner_id INTEGER REFERENCES users(id)
 
 - This repository includes a `LICENSE` file — please review it for terms of reuse.
 
-**Contributing**
+## Contributing
 - Improvements and bug fixes welcome. Open an issue or submit a pull request with a clear description of the change.
 
-**Contact / Author**
-- Author: repository owner (see repository metadata).
+## Author & Contact
+- Author: Sebastijan Dominis
+- Contact: sebastijan.dominis99@gmail.com
