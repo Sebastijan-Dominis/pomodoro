@@ -264,18 +264,25 @@ owner_id INTEGER REFERENCES users(id)
 
 ## Screenshots
 
+### Main screen - logged out
 ![Main screen - logged out](screenshots/pomodoro-1.png)
 
+### Signup screen
 ![Signup screen](screenshots/pomodoro-2.png)
 
+### Login screen
 ![Login screen](screenshots/pomodoro-3.png)
 
+### Main screen - logged in
 ![Main screen - logged in](screenshots/pomodoro-4.png)
 
+### Stats
 ![Stats](screenshots/pomodoro-5.png)
 
+### Pomo counter - 30min
 ![Pomo counter - 30min](screenshots/pomodoro-6.png)
 
+### Pomo counter - 15min
 ![Pomo counter - 15min](screenshots/pomodoro-7.png)
 
 ---
