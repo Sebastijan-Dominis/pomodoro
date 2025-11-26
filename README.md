@@ -32,6 +32,12 @@ This web application allows users to run a pomodoro timer with custom time rangi
 - Docker (optional)
 - sqlite (installed with requirements) or PostgreSQL
 
+---
+
+### Without Docker:
+
+---
+
 ### 1. Clone the repository
 
 ```bash
@@ -46,6 +52,8 @@ cd backend
 ```
 
 #### Create a virtual environment
+
+If using Anaconda:
 
 ```bash
 conda create -n pomodoro python=3.12
@@ -66,15 +74,6 @@ pip install -r requirements.txt
 
 ```bash
 uvicorn main:app --reload
-```
-
-- optionally:
-
-#### Docker
-
-```bash
-docker build -t your-backend .
-docker run -p 8000:8000 your-backend
 ```
 
 ### 3. Set up frontend
@@ -99,6 +98,34 @@ npm install
 npm run dev
 ```
 
+### 4. Use the app
+> typically `http://localhost:5173/`.
+
+---
+
+### With Docker:
+
+---
+
+### 1. Configure the environment variables (see `.env.example`)
+
+- Do this for both backend and frontend
+
+### 2. Build the docker image
+
+```bash
+docker-compose build --no-cache
+```
+
+### 3. Run the docker container
+
+```bash
+docker compose up
+```
+
+### 4. Use the app
+> typically `http://localhost:5173/`.
+
 ## Environment variables
 
 ### Backend
@@ -117,11 +144,9 @@ Option 2
 - DEPLOYMENT_ENVIRONMENT=PRODUCTION
 - DB_URL=postgresql://username:password@host:port/db_name
 
-#### Extra notes
+#### Extra note
 
-- going with the sqlite option will automatically create an sqlite database within your backend folder
 - if opting for postgresql, make sure to create an actual database locally or remotely, run it, and use a valid url to connect to it (should be defined in the DB_URL environment variable)
-- using sqlite is recommended for development and local use (easy to use), while postgresql is recommended for deployment
 
 ### Frontend
 
