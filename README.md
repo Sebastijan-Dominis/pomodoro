@@ -278,6 +278,8 @@ owner_id INTEGER REFERENCES users(id)
 
 ![Pomo counter - 15min](screenshots/pomodoro-7.png)
 
+---
+
 ## License
 
 - This repository includes a `LICENSE` file — please review it for terms of reuse.
