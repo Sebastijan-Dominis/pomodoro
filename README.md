@@ -13,15 +13,21 @@
 - [Contributing](#contributing)
 - [Author & Contact](#author--contact)
 
+---
+
 ## Overview
 
 This web application allows users to run a pomodoro timer with custom time ranging from 15 minutes to 60 minutes per one pomodoro session. Users can then track how many hours and minutes they've spent focused over the last day, week, or month. The general vibe of the website is Mediterranean, hence "Mediterranean Pomodoro".
+
+---
 
 ## Tech Stack
 
 - **Frontend:** React (TypeScript), Vite
 - **Backend:** Fastapi
 - **Database:** PostgreSQL
+
+---
 
 ## Local Development Setup
 
@@ -35,8 +41,6 @@ This web application allows users to run a pomodoro timer with custom time rangi
 ---
 
 ### Without Docker:
-
----
 
 ### 1. Clone the repository
 
@@ -105,8 +109,6 @@ npm run dev
 
 ### With Docker:
 
----
-
 ### 1. Configure the environment variables (see `.env.example`)
 
 - Do this for both backend and frontend
@@ -125,6 +127,8 @@ docker compose up
 
 ### 4. Use the app
 > typically `http://localhost:5173/`.
+
+---
 
 ## Environment variables
 
@@ -151,6 +155,8 @@ Option 2
 ### Frontend
 
 VITE_API_URL=url-to-backend
+
+---
 
 ## API Documentation
 
@@ -228,6 +234,8 @@ Notes:
 - Use the `Authorization: Bearer <token>` header for protected endpoints.
 - For development you can use `DB_URL=sqlite:///./pomodoroapp.db` to avoid external DB setup.
 
+---
+
 ## Database Schema
 
 - if one chooses to manually create the PostgreSQL database, it should be done like so:
@@ -251,6 +259,8 @@ created_at TIMESTAMP,
 owner_id INTEGER REFERENCES users(id)
 );
 ```
+
+---
 
 ## Screenshots
 
